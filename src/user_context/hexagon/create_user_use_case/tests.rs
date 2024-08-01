@@ -1,5 +1,6 @@
 #[cfg(test)]
 mod tests {
+    use std::ops::Deref;
     use std::sync::{Arc, Mutex};
 
     use uuid::Uuid;
@@ -18,7 +19,7 @@ mod tests {
         let _ = use_case.execute(user.clone());
 
         let repo = repo.lock().unwrap();
-        let all_users = repo.all();
+        let all_users = repo.deref().all();
 
 
         assert_eq!(all_users.len(), 1);

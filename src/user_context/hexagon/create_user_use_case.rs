@@ -4,14 +4,13 @@ use std::sync::{Arc, Mutex};
 
 use crate::user_context::hexagon::user::User;
 use crate::user_context::hexagon::user_repository::UserRepository;
-use crate::user_context::secondary_adapters::in_memory_user_repository::InMemoryUserRepository;
 
 #[derive(Clone)]
-pub struct CreateUserUseCase {
-    user_repository: Arc<Mutex<InMemoryUserRepository>>,
+pub struct CreateUserUseCase<T: UserRepository> {
+    user_repository: Arc<Mutex<T>>,
 }
-impl CreateUserUseCase {
-    pub fn new(user_repository: Arc<Mutex<InMemoryUserRepository>>) -> Self {
+impl <T: UserRepository>CreateUserUseCase<T> {
+    pub fn new(user_repository: Arc<Mutex<T>>) -> Self {
         CreateUserUseCase { user_repository }
     }
 
