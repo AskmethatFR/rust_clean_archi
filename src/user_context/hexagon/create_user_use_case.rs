@@ -17,6 +17,6 @@ impl <T: UserRepository>CreateUserUseCase<T> {
 
     pub fn execute(&self, user: User) -> () {
         let mut repo = self.user_repository.lock().unwrap();
-        repo.add_user(user.clone());
+        repo.add_user(user);
     }
 }
