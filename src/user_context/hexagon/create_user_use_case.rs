@@ -1,22 +1,18 @@
 mod tests;
 
-use std::sync::{Arc, Mutex};
-
 use crate::user_context::hexagon::user::User;
 use crate::user_context::hexagon::user_repository::UserRepository;
 
-#[derive(Clone)]
-pub struct CreateUserUseCase<T: UserRepository> {
-    user_repository: Arc<Mutex<T>>,
+pub struct CreateUserUseCase<'a, T: UserRepository> {
+    user_repository: &'a mut T,
 }
-impl <T: UserRepository>CreateUserUseCase<T> {
-    pub fn new(user_repository: Arc<Mutex<T>>) -> Self {
+
+impl <'a, T: UserRepository>CreateUserUseCase<'a,T> {
+    pub fn new(user_repository: &'a mut T) -> Self {
         CreateUserUseCase { user_repository }
     }
 
-
-    pub fn execute(&self, user: User) -> () {
-        let mut repo = self.user_repository.lock().unwrap();
-        repo.add_user(user);
+    pub fn execute(&mut self, user: User) -> () {
+        self.user_repository.add_user(user);
     }
 }
