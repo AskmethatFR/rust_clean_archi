@@ -27,4 +27,8 @@ impl UserRepository for InMemoryUserRepository {
         self.users.insert(user.id.to_string(), user.clone());
         self.all.push(user);
     }
+
+    fn get_user_by_email(&self, email: &str) -> Option<User> {
+        self.users.values().find(|user| user.email == email).cloned()
+    }
 }
